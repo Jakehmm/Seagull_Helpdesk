@@ -131,15 +131,24 @@ if prompt := st.chat_input("Chat with Seagull"):
             )
             
             final_response = response.choices[0].message.content
-
+            
             # For testing purpose, show usage, context, scores, and final response
-            print("\n\n-----------------------\n\n")
-            print(f"Retrieved context: \n{raw_context}\n\n-----------------------\n\n")
-            print(f"Similarity scores: \n{scores}\n\n-----------------------\n\n")
-            print(f"Token usage: \n{response.usage}\n\n-----------------------\n\n")
-            print(f"Reasoning response: \n{response.choices[0].message.reasoning_content}\n\n-----------------------\n\n") # type: ignore
-            print(f"Final response: \n{final_response}\n\n-----------------------\n\n")
-            os.write(1, b'Something was executed.\n')
+            # print("\n\n-----------------------\n\n")
+            # print(f"Retrieved context: \n{raw_context}\n\n-----------------------\n\n")
+            # print(f"Similarity scores: \n{scores}\n\n-----------------------\n\n")
+            # print(f"Token usage: \n{response.usage}\n\n-----------------------\n\n")
+            # print(f"Reasoning response: \n{response.choices[0].message.reasoning_content}\n\n-----------------------\n\n") # type: ignore
+            # print(f"Final response: \n{final_response}\n\n-----------------------\n\n")
+            
+            os.write(1, "\n\n-----------------------\n\n".encode("utf-8"))
+            os.write(1, f"Retrieved context: \n{raw_context}\n\n-----------------------\n\n".encode("utf-8"))
+            os.write(1, f"Similarity scores: \n{scores}\n\n-----------------------\n\n".encode("utf-8"))
+            os.write(1, f"Token usage: \n{response.usage}\n\n-----------------------\n\n".encode("utf-8"))
+            os.write(1, f"Reasoning response: \n{response.choices[0].message.reasoning_content}\n\n-----------------------\n\n".encode("utf-8")) # type: ignore
+            os.write(1, f"Final response: \n{final_response}\n\n-----------------------\n\n".encode("utf-8"))
+
+
+
             # Display the final response
             st.write(final_response)
             # Add the final response to chat history
