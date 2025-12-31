@@ -2,6 +2,7 @@
 # Add image as icon of Seagull
 
 import streamlit as st
+import os
 from openai import OpenAI
 from langchain_community.vectorstores import FAISS
 from update_knowledge import get_embeddings_with_requests
@@ -138,7 +139,7 @@ if prompt := st.chat_input("Chat with Seagull"):
             print(f"Token usage: \n{response.usage}\n\n-----------------------\n\n")
             print(f"Reasoning response: \n{response.choices[0].message.reasoning_content}\n\n-----------------------\n\n") # type: ignore
             print(f"Final response: \n{final_response}\n\n-----------------------\n\n")
-
+            os.write(1, b'Something was executed.\n')
             # Display the final response
             st.write(final_response)
             # Add the final response to chat history
