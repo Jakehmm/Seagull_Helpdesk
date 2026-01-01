@@ -50,7 +50,7 @@ if "messages" not in st.session_state:
     })
 
 # Main chat interface
-st.title("🤖 Seagull 小鸥")
+st.title("🤖 Seagull Helpdesk 小鸥")
 st.caption("An AI helpdesk of Philippine Cultural College. 菲律宾侨中学院的AI智能助手。(This project is created by a student for academic purposes only and is not intended for real-world implementation. 本项目由学生创作，仅用于学术目的，并非为实际应用而设计。)")
 st.caption("AI-generated content may have errors. Please double-check. AI生成内容可能存在错误，请仔细甄别。")
 
