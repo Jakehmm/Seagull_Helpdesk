@@ -71,6 +71,8 @@ if prompt := st.chat_input("Chat with Seagull"):
     
     # Prepare Seagull's response
     with st.chat_message("assistant", avatar="🤖"):
+        # A place holder for response
+        response_placeholder = st.empty()
         # Retrieve relevant context from the knowledge base
         context = ""
         # For testing purpose, show the retrieved scores
@@ -79,6 +81,7 @@ if prompt := st.chat_input("Chat with Seagull"):
         raw_context = []
         if vector_store:
             try:
+                response_placeholder.status("Recalling relevant knowledge (正在回想相关知识)...", expanded=False)
                 # Turn the query into vector
                 query_vector = get_embeddings_with_requests([prompt])[0]
                 # Retrieve relevant documents based on the query vector
@@ -120,6 +123,7 @@ if prompt := st.chat_input("Chat with Seagull"):
         final_prompt = [{"role": "user", "content": prompt_template}]
         
         try:
+            response_placeholder.status("Thinking (思考中)...", expanded=False)
             client = OpenAI(api_key=st.secrets["deepseek_api"], base_url="https://api.deepseek.com/v1")
 
             # Send the chat history (of the last 5 rounds) too, 
@@ -131,15 +135,13 @@ if prompt := st.chat_input("Chat with Seagull"):
             )
             
             final_response = response.choices[0].message.content
-            
-            # For testing purpose, show usage, context, scores, and final response
-            # print("\n\n-----------------------\n\n")
-            # print(f"Retrieved context: \n{raw_context}\n\n-----------------------\n\n")
-            # print(f"Similarity scores: \n{scores}\n\n-----------------------\n\n")
-            # print(f"Token usage: \n{response.usage}\n\n-----------------------\n\n")
-            # print(f"Reasoning response: \n{response.choices[0].message.reasoning_content}\n\n-----------------------\n\n") # type: ignore
-            # print(f"Final response: \n{final_response}\n\n-----------------------\n\n")
-            
+            # Display the final response
+            response_placeholder.write(final_response)
+
+            # If stream is True, comment the above 2 statements and uncomment this:
+            #final_response = response_placeholder.write_stream(response)
+
+            # For testing purpose when stream is False; show usage, context, scores, reasoning, and final response            
             os.write(1, "\n\n-----------------------\n\n".encode("utf-8"))
             os.write(1, f"Retrieved context: \n{raw_context}\n\n-----------------------\n\n".encode("utf-8"))
             os.write(1, f"Similarity scores: \n{scores}\n\n-----------------------\n\n".encode("utf-8"))
@@ -147,13 +149,9 @@ if prompt := st.chat_input("Chat with Seagull"):
             os.write(1, f"Reasoning response: \n{response.choices[0].message.reasoning_content}\n\n-----------------------\n\n".encode("utf-8")) # type: ignore
             os.write(1, f"Final response: \n{final_response}\n\n-----------------------\n\n".encode("utf-8"))
 
-
-
-            # Display the final response
-            st.write(final_response)
             # Add the final response to chat history
             st.session_state.messages.append({"role": "assistant", "content": final_response})
         except Exception as e:
-            st.error(f"API error: {str(e)}")
+            response_placeholder.error(f"API error: {str(e)}")
             st.session_state.messages.append({"role": "assistant", "content": "Sorry, an error has occured while handling your request."})
 
