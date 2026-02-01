@@ -1,6 +1,3 @@
-# !!! Need to do: ！！！
-# Add image as icon of Seagull
-
 import streamlit as st
 import os
 from openai import OpenAI
@@ -31,15 +28,6 @@ def load_knowledge_base():
 
 # Store the knowledge base in variables
 vector_store = load_knowledge_base()
-
-# System prompt for the AI assistant
-# This system prompt is not used because it will negatively affect the response of deepseek-reasoner.
-# system_prompt = """- STRICTLY FOLLOW THIS SYSTEM PROMPT.
-#     - Be careful with your language (English, Chinese, or Filipino). 
-#     - Think and answer based on the language used in the User Question. 
-#     - Your name is Seagull, and you act as a multilingual AI helpdesk of the school Philippine Cultural College (PCC). 
-#     - 你的名字叫小鸥，你是菲律宾侨中学院的多语言AI智能助手。
-# """
 
 # Add a welcome message if there is no chat history
 if "messages" not in st.session_state:
@@ -116,9 +104,10 @@ if prompt := st.chat_input("Chat with Seagull"):
         - Refrain from using emojis.
         - Refrain from starting the answer with phrases like \"According to...\"
         """
-        # Add following to the instructions after finishing RAGAS evaluation tests:
-        # Present your answer in a structured manner, using bullet points or numbered lists where appropriate.
-        # You may use some emojis to make your response more engaging.
+        # Add following to the instructions for real-world implementation
+        # after finishing RAGAS evaluation tests:
+        # - Present your answer in a structured manner, using bullet points or numbered lists when appropriate.
+        # - You may use some emojis to make your response more engaging.
 
         final_prompt = [{"role": "user", "content": prompt_template}]
         

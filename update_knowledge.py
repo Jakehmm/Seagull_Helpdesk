@@ -1,7 +1,3 @@
-# !!! Need to do: ！！！
-# As of now, none
-
-
 import os
 from langchain_community.document_loaders import TextLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
