@@ -118,7 +118,7 @@ if prompt := st.chat_input("Chat with Seagull"):
             # Send the chat history (of the last 5 rounds) too, 
             # and change the current user prompt into the enhanced version of it.
             response = client.chat.completions.create(
-                model="deepseek-reasoner",
+                model="deepseek-v4-flash",
                 messages=st.session_state.messages[-6:-1] + final_prompt,
                 stream=False,
             )
